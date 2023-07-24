@@ -5,11 +5,7 @@
 import os
 from dotenv import load_dotenv
 from typing import List
-
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-%matplotlib inline
 
 # LangChain imports
 from langchain.agents import create_pandas_dataframe_agent
@@ -35,7 +31,7 @@ def extract_tags(description: str, dataset_path: str) -> List:
         data_file = pd.read_csv(dataset_path)
     
     elif dataset_path.endswith('.xlsx'):
-        data_file = pd.read_csv(dataset_path)
+        data_file = pd.read_excel(dataset_path)
     
     string_data = data_file.select_dtypes(include=["object"])
     data_unique_num = string_data.nunique()

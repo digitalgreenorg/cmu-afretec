@@ -17,9 +17,9 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain import PromptTemplate
+from extract_keyword import extract_tags
 
 load_dotenv('../../.env.production')
-print(os.getcwd())
 
 if len(sys.argv) < 2:
     print("You have to specify the name of the dataset \nExiting...")
@@ -73,7 +73,7 @@ def gen_desc_gpt(query):
     return description
 
 # function to generaate description with Retrieval QA
-def gen_desc_rQA(dataset_path: str, generate_tags: bool) -> str:
+def gen_desc_rQA(dataset_path: str, generate_tags: bool = True) -> str:
 
     if dataset_path.endswith('.csv'):
         data_file = pd.read_csv(dataset_path)
@@ -114,8 +114,14 @@ def gen_desc_rQA(dataset_path: str, generate_tags: bool) -> str:
         query_gpt = create_prompt_col(data_file.columns)
         description = gen_desc_gpt(query_gpt)
     finally:
-        return description
+        description = description
     
+    if generate_tags:
+        tags = extract_tags(description, file_path)
+    
+    return (description, tags)
+
 if __name__ == '__main__':
-    description = gen_desc_rQA(file_path, api_key)
+    description, tags = gen_desc_rQA(file_path, api_key)
     print(description)
+    print(tags)
