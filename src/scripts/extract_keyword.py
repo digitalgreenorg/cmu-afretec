@@ -3,6 +3,7 @@
 
 # Imports
 import os
+import re
 from dotenv import load_dotenv
 from typing import List
 import pandas as pd
@@ -25,7 +26,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def extract_tags(description: str, dataset_path: str) -> List:
 
-    llm_2 = OpenAI(temperature=0)
+    llm = OpenAI(temperature=0)
 
     if dataset_path.endswith('.csv'):
         data_file = pd.read_csv(dataset_path)
@@ -49,7 +50,18 @@ def extract_tags(description: str, dataset_path: str) -> List:
     if  len(unique_values) != 0:
         f_query = " Pick relevant Agricultural keywords from this string "
         context = f"{' '.join(unique_values)}"
-        tags = llm_2(context + f_query).replace('\n', '').split(', ')
+        tags = llm(context + f_query).replace('\n', '').split(', ')
+
+    query = "Provide the top 10 most relevant keywords related to agriculture from this description"
+
+    description_tags = llm(description + query)
+
+    # extract string to a list of keywords
+    pattern = r'\n|\d+. '
+    results = re.split(pattern, description_tags)
+    description_tags_list = list(filter(None, results))
+
+    tags.extend(description_tags_list)
 
     return tags
 
