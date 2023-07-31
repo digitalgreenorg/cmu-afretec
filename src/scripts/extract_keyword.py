@@ -7,6 +7,7 @@ import re
 from dotenv import load_dotenv
 from typing import List
 import pandas as pd
+from langchain.llms import OpenAI
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

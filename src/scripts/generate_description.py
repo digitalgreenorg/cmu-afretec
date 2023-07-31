@@ -7,9 +7,6 @@ import pandas as pd
 
 # LangChain imports
 from langchain.agents import create_pandas_dataframe_agent
-# from langchain.chat_models import ChatOpenAI
-# from langchain.agents.agent_types import AgentType
-# from langchain.chains.summarize import load_summarize_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import UnstructuredExcelLoader, UnstructuredFileLoader
 from langchain.llms import OpenAI
@@ -123,7 +120,7 @@ def gen_desc_rQA(dataset_path: str, generate_tags: bool = True) -> str:
 
 if __name__ == '__main__':
     description, tags = gen_desc_rQA(file_path, api_key)
-    print("Dataset Description: ")
-    print(description)
-    print("Suggested Dataset Tags: ")
+    print("\nDataset Description:")
+    print(f"{description}\n")
+    print("\nSuggested Dataset Tags:")
     print(tags)
