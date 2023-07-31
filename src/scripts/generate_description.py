@@ -123,5 +123,7 @@ def gen_desc_rQA(dataset_path: str, generate_tags: bool = True) -> str:
 
 if __name__ == '__main__':
     description, tags = gen_desc_rQA(file_path, api_key)
+    print("Dataset Description: ")
     print(description)
+    print("Suggested Dataset Tags: ")
     print(tags)
