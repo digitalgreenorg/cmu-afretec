@@ -26,6 +26,7 @@ def extract_tags(description: str, dataset_path: str) -> List:
     data_unique_num = string_data.nunique()
     select_data = data_unique_num[data_unique_num < 7]
 
+    tags = []
     unique_values = []
 
     select_columns = select_data.keys()
