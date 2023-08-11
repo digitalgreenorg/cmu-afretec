@@ -87,7 +87,7 @@ def gen_desc_rQA(dataset_path: str, generate_tags: bool = True) -> str:
     doc = loader.load()
     
     # split docs
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=3000, chunk_overlap=400)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=3000, chunk_overlap=0)
     docs = text_splitter.split_documents(doc)
     
     total_num_char = sum([len(x.page_content) for x in docs])
@@ -107,7 +107,6 @@ def gen_desc_rQA(dataset_path: str, generate_tags: bool = True) -> str:
     try:                     
         description = qa.run(query)
     except Exception:
-        print("Error message:")
         query_gpt = create_prompt_col(data_file.columns)
         description = gen_desc_gpt(query_gpt)
     finally:
